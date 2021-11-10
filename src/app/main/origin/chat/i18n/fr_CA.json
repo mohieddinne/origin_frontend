@@ -1,0 +1,17 @@
+{
+  "chat_app_name": "Clavardage",
+  "search": "Rechercher",
+  "search_or_start_new_chat": "Rechercher ou démarrer une nouvelle conversation",
+  "nothing_yet": "Aucun message encore",
+  "conversation": "Conversation",
+  "conversation_plural": "Conversations",
+  "contact": "Contact",
+  "contact_plural": "Contacts",
+  "start_a_conversation": "Contacts",
+  "type_your_message": "Tapez votre message",
+  "select_a_contact_to_chat": "Selectionnez un contact pour commencer la conversation",
+  "chat_room_created_by": "{{user}} a lancé la conversation",
+  "chat_room_created_by_you": "Vous avez lancé la conversation",
+  "u1_invited_u2_to_join": "{{user_1}} a invité {{user_2}} a rejoindre la conversation",
+  "you_invited_u2_to_join": "Vous avez invité {{user_2}} a rejoindre la conversation"
+}

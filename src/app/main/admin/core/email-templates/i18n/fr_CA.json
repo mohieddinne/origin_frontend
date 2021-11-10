@@ -1,0 +1,17 @@
+{
+  "email_templates": "Template des emails",
+  "model_name": "Nom du modèle",
+  "model_name_plural": "Nom des modèles",
+  "email_template_list": "Liste des modèles",
+  "new_email_template": "Nouveau modèle de couriel",
+  "new_email_template_caption": "bla bla",
+  "model_category": "Catégorie",
+  "model_variables": "Variables",
+  "model_slug": "Slug",
+  "from_name": "De la part de (Nom)",
+  "default_sender": "Par defauts",
+  "html_in_mail": "Corps en HTML",
+  "copy_tooltip": "Copier la variable {{name}} dans le Presse-papier",
+  "subject": "Sujet",
+  "message": "Corps de l'email"
+}

@@ -1,0 +1,107 @@
+import { useState } from "react";
+import { useQuery, gql } from "@apollo/client";
+import SelectFormsy from "@fuse/components/formsy/SelectFormsy";
+import MenuItem from "@material-ui/core/MenuItem";
+import { useTranslation } from "react-i18next";
+import Input from '@material-ui/core/Input';
+
+const QUERY = gql`
+  query filter($slug: String!, $after: String) {
+    sharedFilter(slug: $slug, after: $after, limit: 100) {
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        name
+        value
+      }
+    }
+  }
+`;
+
+function StaffFilter(props) {
+  const { t } = useTranslation();
+  const name = props.field?.name;
+
+  const { data, loading, error, fetchMore } = useQuery(QUERY, {
+    variables: { slug: name, after: null },
+    skip: !name,
+    fetchPolicy: "cache-and-network",
+  });
+
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const items = data?.sharedFilter?.nodes || [];
+
+  return (
+    <SelectFormsy
+      {...props}
+      name={name}
+      id={"advanced_filters_" + name}
+      label={t("filters:" + name)}
+      autoComplete="off"
+      disabled={loading || error || isLoadingMore}
+      className="w-full"
+      required={true}
+      input={<Input />}
+      MenuProps={{
+        PaperProps: {
+          onScroll: async (e) => {
+            const { offsetHeight, scrollTop, scrollHeight } =
+              e.target;
+            const hNP = data?.sharedFilter?.pageInfo?.hasNextPage;
+            console.log({
+              offsetHeight,
+              scrollTop,
+              scrollHeight,
+              t: offsetHeight + scrollTop === (scrollHeight / 3) * 2,
+            });
+            const scrollLimit =
+              offsetHeight + scrollTop >= (scrollHeight / 3) * 2;
+            if (!isLoadingMore && scrollLimit && hNP) {
+              setIsLoadingMore(true);
+              await fetchMore({
+                variables: {
+                  after: data?.sharedFilter?.pageInfo?.endCursor,
+                },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  const { sharedFilter } = prev;
+                  const { sharedFilter: newData } = fetchMoreResult;
+                  if (!fetchMoreResult) return prev;
+                  return {
+                    sharedFilter: {
+                      ...sharedFilter,
+                      pageInfo: newData.pageInfo,
+                      nodes: [
+                        ...sharedFilter.nodes,
+                        ...newData.nodes,
+                      ],
+                    },
+                  };
+                },
+              });
+              setIsLoadingMore(false);
+            }
+          },
+        },
+      }}
+    >
+      {items.map((item) => {
+        return (
+          <MenuItem key={item.value} value={item.value}>
+            {item.name}
+          </MenuItem>
+        );
+      })}
+      {isLoadingMore && (
+        <MenuItem dense={true} value="loading">
+          <em>{t("loading")}</em>
+        </MenuItem>
+      )}
+    </SelectFormsy>
+  );
+}
+
+export default StaffFilter;

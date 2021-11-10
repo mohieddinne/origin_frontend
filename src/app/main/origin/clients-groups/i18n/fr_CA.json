@@ -1,0 +1,24 @@
+{
+  "new": "Nouveau",
+  "group": "Groupe",
+  "group_plural": "Groupes",
+  "new_group": "Nouveau groupe",
+  "delete_the_group": "Supprimer le groupe",
+  "you_are_deleting_group": "Vous allez supprimer le groupe",
+  "you_are_deleting_group_Ques": "Etes-vous sur de vouloir supprimer le groupe ?     ce groupe contient ",
+  "you_are_deleting_group_desc": "Tous les clients qui l’appartiennent seront marqué comme Groupe : Aucun par la suite. Cette action a des conséquences sur plusieurs modules tels qu’Indicateurs de performance.",
+  "customer": "clients",
+  "client_count": "Nombre de succursales",
+  "groupId": "Numéro de groupe",
+  "options": "Options",
+  "error": {
+    "favorite": "Erreur lors du changement du status favorit"
+  },
+  "success": {
+    "favorite": "Changement de l'état du favorit effectué avec succès",
+    "create": "Le groupe est crée avec succès",
+    "edit": "Le groupe est modifié avec succès",
+    "delete": "Le groupe est supprimé avec succès"
+  },
+  "favorite": "Favoris"
+}

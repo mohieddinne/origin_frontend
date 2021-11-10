@@ -1,0 +1,11 @@
+{
+  "description": "Description",
+  "userName": "Nom d'utilisateur",
+  "userfonction": "fonction d'utilisateur",
+  "courriel": "Courriel",
+  "createdAt": "Créé à",
+  "log": "Journal",
+  "Activity log": "Journal d'activité",
+  "activity_log_date": "Date de l'activité",
+  "date": "Date"
+}

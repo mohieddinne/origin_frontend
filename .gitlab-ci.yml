@@ -1,0 +1,246 @@
+stages:
+  - build
+  - deploy
+  - test
+
+e2e_tests:
+  image:
+    name: testcafe/testcafe
+    entrypoint: ["/bin/sh", "-c"]
+  tags:
+    - test
+  stage: test
+  except:
+    - staging
+    - staging-preprod
+    - master
+  variables:
+    DEV_MODE: http://$CI_COMMIT_REF_SLUG-$CI_PROJECT_NAME.$CI_PROJECT_NAMESPACE.globetechnologie.net/
+  script:
+    - /opt/testcafe/docker/testcafe-docker.sh chromium tests/dev/*.js --skip-js-errors --disable-page-caching --disable-multiple-windows -s path=/builds/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/_uploads_/artifacts/screenshots/,fullPage=true
+
+e2e_tests_staging:
+  image:
+    name: testcafe/testcafe
+    entrypoint: ["/bin/sh", "-c"]
+  tags:
+    - test
+  stage: test
+  only:
+    - staging
+  script:
+    - /opt/testcafe/docker/testcafe-docker.sh chromium tests/staging/*.js --skip-js-errors --disable-page-caching --disable-multiple-windows -s path=/builds/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/_uploads_/artifacts/screenshots/,fullPage=true
+
+build-image:
+  image: docker:latest
+  variables:
+    DOCKER_HOST: tcp://dev.globetechnologie.net:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  tags:
+    - build
+  stage: build
+  only:
+    - dev
+    - staging
+    - staging-preprod
+    - master
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build --build-arg node=$CI_COMMIT_REF_SLUG -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+
+deploy-image:
+  image: docker:latest
+  variables:
+    DOCKER_HOST: tcp://dev.globetechnologie.net:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  tags:
+    - deploy
+  stage: deploy
+  only:
+    - dev
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker stop $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker rm $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker create --net bridge --pull always --name $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG 
+    - docker network connect localnetwork $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG
+    - docker update --restart=always $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG
+    - docker start $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG
+    - docker image prune -f
+    - docker restart apache-proxy
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    url: http://$CI_COMMIT_REF_SLUG-$CI_PROJECT_NAME-$CI_PROJECT_NAMESPACE.dev.globetechnologie.net/
+    on_stop: clean-env
+
+clean-env:
+  tags:
+    - deploy
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+    DOCKER_HOST: tcp://dev.globetechnologie.net:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+  only:
+    - dev
+  script:
+    - echo "Remove review app"
+    - docker stop $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker rm $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker image prune -f
+  when: manual
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    action: stop
+
+deploy-image-staging:
+  image: docker:latest
+  variables:
+    DOCKER_TLS_VERIFY: 1 
+    DOCKER_HOST: tcp://staging.globetechnologie.net:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: "/certs/dockerstaging"
+  tags:
+    - staging-tls
+  stage: deploy
+  only:
+    - staging
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker stop $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker rm $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker create --net bridge --pull always --name $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG 
+    - docker network connect localnetwork $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG
+    - docker update --restart=always $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG
+    - docker start $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG
+    - docker image prune -f
+    - docker restart apache-proxy
+  environment:
+    name: staging
+    url: http://$CI_COMMIT_REF_SLUG-$CI_PROJECT_NAME-$CI_PROJECT_NAMESPACE.staging.globetechnologie.net/
+    on_stop: clean-env-staging
+
+clean-env-staging:
+  tags:
+    - staging-tls
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+    DOCKER_TLS_VERIFY: 1 
+    DOCKER_HOST: tcp://staging.globetechnologie.net:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: "/certs/dockerstaging"
+  only:
+    - staging
+  script:
+    - echo "Remove review app"
+    - docker stop $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker rm $CI_PROJECT_ID-$CI_COMMIT_REF_SLUG || true
+    - docker image prune -f
+  when: manual
+  environment:
+    name: staging
+    action: stop
+    
+deploy-image-staging-preprod:
+  image: docker:latest
+  variables:
+    DOCKER_TLS_VERIFY: 1 
+    DOCKER_HOST: tcp://portainer.globetechnologie.com:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: "/certs/dockergt"
+  tags:
+    - deploy-tls
+  stage: deploy
+  only:
+    - staging-preprod
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker stop staging-preprod-origin-frontend || true
+    - docker rm staging-preprod-origin-frontend || true
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker create --net bridge --pull always --name staging-preprod-origin-frontend $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG 
+    - docker network connect localnetwork staging-preprod-origin-frontend
+    - docker update --restart=always staging-preprod-origin-frontend
+    - docker start staging-preprod-origin-frontend
+    - docker image prune -f
+  environment:
+    name: staging-preprod
+    url: https://staging-preprod.intranet.origin.expert/
+    on_stop: clean-env-staging-preprod
+
+clean-env-staging-preprod:
+  tags:
+    - deploy-tls
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+    DOCKER_TLS_VERIFY: 1 
+    DOCKER_HOST: tcp://portainer.globetechnologie.com:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: "/certs/dockergt"
+  only:
+    - staging-preprod
+  script:
+    - echo "Remove review app"
+    - docker stop staging-preprod-origin-frontend || true
+    - docker rm staging-preprod-origin-frontend || true
+    - docker image prune -f
+  when: manual
+  environment:
+    name: staging-preprod
+    action: stop
+
+deploy-image-prod:
+  image: docker:latest
+  variables:
+    DOCKER_TLS_VERIFY: 1 
+    DOCKER_HOST: tcp://portainer.globetechnologie.com:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: "/certs/dockergt"
+  tags:
+    - deploy-tls
+  stage: deploy
+  only:
+    - master
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker stop intranet-origin-frontend || true
+    - docker rm intranet-origin-frontend || true
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker create --net bridge --pull always --name intranet-origin-frontend $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG 
+    - docker network connect localnetwork intranet-origin-frontend
+    - docker update --restart=always intranet-origin-frontend
+    - docker start intranet-origin-frontend
+    - docker image prune -f
+  environment:
+    name: production
+    url: https://intranet.origin.expert/
+    on_stop: clean-env-master
+
+clean-env-master:
+  tags:
+    - deploy-tls
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+    DOCKER_TLS_VERIFY: 1 
+    DOCKER_HOST: tcp://portainer.globetechnologie.com:2376/
+    DOCKER_DRIVER: overlay2
+    DOCKER_CERT_PATH: "/certs/dockergt"
+  only:
+    - master
+  script:
+    - echo "Remove review app"
+    - docker stop intranet-origin-frontend || true
+    - docker rm intranet-origin-frontend || true
+    - docker image prune -f
+  when: manual
+  environment:
+    name: production
+    action: stop
+

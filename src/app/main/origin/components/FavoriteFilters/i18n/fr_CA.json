@@ -1,0 +1,19 @@
+{
+  "select_filter": "Choisissez un filtre",
+  "delete_filter": "Supprimer le filtre",
+  "favorite_filter": "Filtres favoris",
+  "apply_filter": "Appliquez le filtre ?",
+  "apply_filter_confirmation_p": "Vous avez déjà des filtres appliqués à votre interface, si vous confirmer votre filtre favoris « {{name}} » va écraser votre filtre existant, vous voulez continuer ?",
+  "no_filter_was_applied": "Aucun filtre est appliqué",
+  "your_filter_is_saved": "Votre filtre « {{name}} » est enregistré dans la base de donnée",
+  "error_saving_filters": "Erreur lors de l'enregistrement de votre filtre",
+  "name_the_filer": "Nommer le filtre",
+  "saving_the_filters_p1": "Vous allez ajouter les filtres du formulaire dans vos filtres favoris de ce tableau.",
+  "saving_the_filters_p2": "Merci de spécifier le nom de cette collection de filtre :",
+  "favorite_name": "Nom du favoris",
+  "filter_deleted": "Le filtre {{name}} est supprimer avec succès.",
+  "error_deleting_filter": "Erreur lors de la suppression du filtre {{name}}.",
+  "delete_filter_confirmation_p": "Vous êtes sur le point de supprimer votre filtre favoris « {{name}} », cette action est irréversible. Voulez-vous continuer ?",
+  "your_favorites": "Vos favoris",
+  "delete_tooltip": "Supprimer le filtre selectionné de vos favoris"
+}

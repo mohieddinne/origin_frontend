@@ -1,0 +1,41 @@
+{
+  "title": "liste des activités project-facture",
+  "employee": "Employé",
+  "experts_list": "Liste des experts",
+  "confirm_timesheets": "Confirmer le temps de project de facture",
+  "confirm_timesheet_checked": "En confirmant votre votre temps vous allez fermer le dossier",
+  "selected_experts": "Experts sélectionnés",
+  "close_folder": "Fermer le dossier",
+  "costs": "Frais",
+  "experts_validation": "Validation des autres experts au dossier",
+  "total_hours": "Total heures:",
+  "total_billable_hours": "Total heures facturable du projet:",
+  "date": "Date",
+  "folder": "Dossier",
+  "category": "Categorie",
+  "activity": "Activité",
+  "hour": "Heure",
+  "facturation-hour": "Heure de facturation",
+  "rate": "Taux",
+  "comment": "Comentaire",
+  "list_of_activities": "liste des activités",
+  "employeeName": "Employé",
+  "See_the_agreement": "Voir l'entente",
+  "Agreement_details": "Détail de l'entente",
+  "reference": "Référence",
+  "list_of_ProjectInvoice": "Liste des project-facture",
+  "Validation_experts_in_the_file": "Confirmer le temps du project de facture",
+  "delete_the_activity": "Supprimer l'activité",
+  "delete_the_activity_plural": "Supprimer les {{count}} activités",
+  "invoice_project": "Projet de facture",
+  "tec_value": "TEC",
+  "rest": "Reste",
+  "you_are_deleting_activity": "Vous allez supprimer l'activité",
+  "you_are_deleting_activity_Ques": "Etes-vous sur de vouloir supprimer l'activité? ",
+  "success": {
+    "confirm_timesheet": "La validation de votre temps est faite avec succès"
+  },
+  "error": {
+    "confirm_timesheet": "Une erreur s'est produite lors de la validation de votre temps"
+  }
+}

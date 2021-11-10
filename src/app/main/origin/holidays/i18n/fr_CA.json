@@ -1,0 +1,16 @@
+{
+  "holiday": "Jour férié",
+  "holiday_plural": "Jours fériés",
+  "list_of_holidays": "List des jours fériés",
+  "new_holiday": "Nouveau jour férié",
+  "edit_holiday": "Modifier un jour férié",
+  "new_holiday_cap": "Crée un nouveau jour férié",
+  "edit_holiday_cap": "Modifier un jour férié",
+  "delete_the_holiday": "Supprimer le jour férié",
+  "success_updating": "Le Jour férié est mise-à-jour avec succès.",
+  "success_creating": "Le Jour férié est ajouté avec succès.",
+  "error_handling": "Erreur lors du traitement du Jour férié.",
+  "you_are_deleting_holiday": "Vous allez supprimer le jour férié",
+  "you_are_deleting_holiday_ques": "Etes-vous sur de vouloir supprimer le jour férié ?",
+  "you_are_deleting_holiday_desc": "Supprimer un jour férié va affecter le calcul des moyennes de délais lors de la prochaine actualisation des calculs des délais."
+}

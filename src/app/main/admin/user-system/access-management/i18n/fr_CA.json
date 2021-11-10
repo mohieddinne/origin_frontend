@@ -1,0 +1,16 @@
+{
+  "title": "Rôles et accès",
+  "see": "Vue générale ",
+  "see_own": "Voir (miens)",
+  "access": "Accès",
+  "access_plural": "Accès",
+  "role": "Niveau",
+  "role_plural": "Niveaux",
+  "add_role": "Ajouter un rôle",
+  "role_name": "Nom du rôle",
+  "create_new_role": "Créer un nouveau rôle",
+  "accesses_description": "Liste des accès et privilèges des utilisateurs du rôle selectionné.",
+  "errors": {
+    "loading": "Erreur de chargements"
+  }
+}

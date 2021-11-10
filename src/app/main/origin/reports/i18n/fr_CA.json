@@ -1,0 +1,20 @@
+{
+  "title": "Rapports TEC",
+  "list_of_reports": "Liste des rapports",
+  "employee": "Responsable",
+  "DateProchaineActivite": "Prochaine activité",
+  "DernierDeDateActivite": "Dernière activité",
+  "Specimen": "Spécimens",
+  "toComplete": "Reste (budget net)",
+  "invoiceAmount": "Montant déjà facturé​",
+  "DateMandat": "Date de mandat",
+  "Livraison": "Livraison",
+  "budget": "Budget total",
+  "totalAmount": "Montant des TEC",
+  "folderId": "Dossier",
+  "reference": "Référence",
+  "stats": "Stats",
+  "every_user": "Tous les responsables",
+  "with_no_users": "TEC sans responsable",
+  "execute": "exécuter"
+}

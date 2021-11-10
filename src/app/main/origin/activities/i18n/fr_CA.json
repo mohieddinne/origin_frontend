@@ -1,0 +1,80 @@
+{
+  "title": "Gestion des activités",
+  "list_of_activities": "Liste des activités",
+  "activity_number": "Numéro de l’activité",
+  "bilable_hours_title": "Détails des heures facturables",
+  "folder_details": "Détails de dossier",
+  "list_hours_billable": "Liste des activités avec heures facturables",
+  "nbrOfBillableHours": "Nombre d'heures facturables",
+  "projectInvoice": "Facture de projet",
+  "year": "Année",
+  "project": "Dossier",
+  "responsible": "Responsable",
+  "folder_number": "Numéro du dossier",
+  "hours": "Heures",
+  "billed_hours": "Heures facturé",
+  "employee_name": "Nom de l'employé",
+  "activity": "Activité",
+  "activity_plural": "Activités",
+  "category": "Catégorie",
+  "categories": "Catégories",
+  "activities": "Activités",
+  "invoice_number": "Numéro de facture",
+  "hourly_rates": "Taux horaire",
+  "success": {
+    "create": "Enregistrement de votre temps fait avec succès"
+  },
+  "error": {
+    "create": "Une erreur est survenue lors de l'enregistrement de votre temps"
+  },
+  "projects": "Dossiers",
+
+  "assignedInvoice": "Facture affectée",
+  "activity_date": "Date de l'activité",
+  "invoice_state": "Statut de facturation",
+  "invoiced_hours": "Heures facturées",
+  "affected_invoice": "Facturé",
+  "unaffected_invoice": "Non-facturé",
+  "billing_date": "Date de facturation",
+  "insurer": "Assureur",
+  "date_activity_start": "Date de début de l'activité",
+  "date_activity_end": "Date de fin de l'activité",
+  "date_facturation_start": "Date de début de facturation ",
+  "date_facturation_end": "Date de fin de facturation ",
+
+  "billable_hours": "Heures facturables",
+  "new_activity": "Ajout d'un enregistrement de saisie de temps",
+  "edit_activity": "Modification  d'un enregistrement de saisie de temps",
+  "new_activity_title": "Ajouter une activité",
+  "new_activity_details": "Formulaire d'ajout d'un enregistrement de saisie de temps",
+  "activity_details": "Formulaire de modification d'un enregistrement de saisie de temps",
+
+  "back_to_activity_list": "Retour à la liste des activités",
+  "message_confirm_recording": "Vous êtes sur d'ajouter un enregistrement de saisie de temps?",
+  "message_confirm_recording_desc": "Votre commande depasse le budget",
+  "form": {
+    "user": "Employé",
+    "users": "Employés",
+    "confirm": "Enregistrer",
+    "comments": "Liste des commentaires",
+    "comment": "Commentaire",
+    "record_type": "Type d'enregistrement :",
+    "time": "Temps",
+    "fresh": "Frais",
+    "rate": "Taux",
+    "reset": "Annuler",
+    "search": "Rechercher",
+    "budget": "Budget",
+    "total_seizure": "Total saisie",
+    "empty_comment_list": "aucun commentaire pour la catégorie et / ou l'activité sélectionnée"
+  },
+
+  "total": "Total",
+  "timsheet": "Feuille de temps",
+  "timsheet_plural": "Feuilles de temps",
+  "timesheet-view": {
+    "week_ending": "Semaine finissante le ",
+    "folder": "Dossier",
+    "facturation-hour": "Heure de facturation"
+  }
+}
